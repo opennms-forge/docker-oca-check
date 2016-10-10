@@ -18,8 +18,10 @@ RUN curl -L ${OCA_CHECK_WAR_URL} -o ${OCA_CHECK_DEPLOY_DIR}/oca-check.war && \
     mkdir /etc/oca-plugin
 
 COPY assets/* /etc/oca-plugin/
+COPY ./docker-entrypoint.sh /
 
-## Volumes for storing data outside of the container
-VOLUME [ "/etc/oca-github-plugin.properties" ]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
+
+CMD [ "-h" ]
 
 EXPOSE 8080
