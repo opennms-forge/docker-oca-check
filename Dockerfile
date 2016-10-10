@@ -15,9 +15,9 @@ ENV OCA_REGEXP_REDO myRegexpRedo
 ENV MAPPING_FILE_LOCATION myMappingFileLocation
 
 RUN curl -L ${OCA_CHECK_WAR_URL} -o ${OCA_CHECK_DEPLOY_DIR}/oca-check.war && \
-    mkdir /etc/oca-plugin
+    mkdir ${OCA_PLUGIN_CONFIG_DIR}
 
-COPY assets/* /etc/oca-plugin/
+COPY assets/* ${OCA_PLUGIN_CONFIG_DIR}/
 COPY ./docker-entrypoint.sh /
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
