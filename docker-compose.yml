@@ -1,16 +1,9 @@
 version: '2'
 services:
-  oca_check_data:
-    image: tianon/true
-    volumes:
-        - /var/lib/postgresql/data
   oca_check:
     image: indigo/opennms-oca-check
     env_file:
       - .oca_check.env
+    command: ["-s"]
     ports:
-      - "8980:8980"
-    depends_on:
-      - oca_check_data
-    volumes_from:
-      - oca_check_data:rw
+      - "8080:8080"
