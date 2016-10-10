@@ -1,0 +1,75 @@
+image::https://images.microbadger.com/badges/image/indigo/docker-oca-check.svg[link=http://microbadger.com/images/indigo/docker-oca-check]
+image::https://images.microbadger.com/badges/version/indigo/docker-oca-check.svg[link=http://microbadger.com/images/indigo/docker-oca-check]
+
+= Supported tags
+
+* `latest`, latest develop release
+
+= latest
+
+* Jetty 9.2.19
+* OCA GitHub Plugin 1.1
+
+= OCA check service for GitHub
+
+This service checks contributors in GitHub pull requests if they have signed the OpenNMS Contribution Agreement (OCA).
+The mail address of the pull request contributor is verified against the list in the link:https://wiki.opennms.org/wiki/Executed_contributor_agreements[OpenNMS Wiki].
+
+== Requirements
+
+Running the service requires:
+
+* Access to administrative settings in GitHub project
+* Service must be available on the Internet with public IP address or DNS name and requires a Webhook entry in the GitHub project
+* Docker Engine 1.12+
+* optional Docker Compose 1.8+
+
+== Configuration
+
+The service can be configured with environment variables.
+Following variables are available:
+
+[options="header, autowidth"]
+|===
+| Variable                | Description | Default
+| `OCA_PLUGIN_CONFIG_DIR` | Location for properties config file                                                    | `/etc/oca-github-plugin`
+| `OCA_PLUGIN_CONFIG`     | OCA global configuration file                                                          | `/etc/oca-github-plugin/oca-github-plugin.properties`
+| `OCA_PLUGIN_MAPPING`    | Allow mapping of multiple mail addresses to a GitHub user                              | `/etc/oca-github-plugin/oca-mapping.properties`
+| `GITHUB_API_TOKEN`      | GitHub API Token                                                                       | myToken
+| `GITHUB_USER`           | GitHub user with permissions to the repository                                         | myUser
+| `GITHUB_REPOSITORY`     | GitHub repository for Pull Requests to check                                           | myRepo
+| `GITHUB_WEBHOOK_SECRET` | GitHub webhook secret                                                                  | myWebhookSecret
+| `OCA_REGEXP_REDO`       | Commands which allow triggering the OCA check manually through Pull Request comment,
+                            e.g. `.*(alfred\|ulf).*oca.*`                                                          | myRegexpRedo
+| `MAPPING_FILE_LOCATION` | Location of the mapping file for multiple mail addresses to a single GitHub user       | myMappingFileLocation
+|===
+
+== Usage
+
+Create a `.oca_check.env` file with your settings as shown in the example.
+
+.Global configuration for oca-github-plugin.properties
+[source]
+--
+GITHUB_API_TOKEN=myGitHubApiToken
+GITHUB_USER=myGitHubUser
+GITHUB_REPOSITORY=myGitHubRepository
+GITHUB_WEBHOOK_SECRET=myGitHubWebhookSecret
+OCA_REGEXP_REDO=myOcaRegexpForRecheck
+MAPPING_FILE_LOCATION=/path/to/mappingfile.properties
+--
+
+Run the containerized service using `docker-compose`
+
+[source, bash]
+--
+docker-compose up -d
+--
+
+Service can be tested with the _health_ ReST endpoint:
+
+[source, bash]
+--
+curl -I http://localhost:8080/oca-check/rest/health
+HTTP/1.1 200 OK
+--
