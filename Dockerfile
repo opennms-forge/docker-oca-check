@@ -20,6 +20,8 @@ RUN curl -L ${OCA_CHECK_WAR_URL} -o ${OCA_CHECK_DEPLOY_DIR}/oca-check.war && \
 COPY assets/* ${OCA_PLUGIN_CONFIG_DIR}/
 COPY ./docker-entrypoint.sh /
 
+HEALTHCHECK --interval=10s --timeout=3s CMD curl --fail -s -I curl -I http://localhost:8080/oca-check/rest/health | grep "HTTP/1.1 200 OK" || exit 1
+
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
 CMD [ "-h" ]
