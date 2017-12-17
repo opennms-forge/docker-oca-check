@@ -1,4 +1,4 @@
-FROM jetty:9.2.19
+FROM jetty:9.4.6
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OCA_CHECK_VERSION 1.1
@@ -21,6 +21,11 @@ COPY assets/* ${OCA_PLUGIN_CONFIG_DIR}/
 COPY ./docker-entrypoint.sh /
 
 HEALTHCHECK --interval=10s --timeout=3s CMD curl --fail -s -I curl -I http://localhost:8080/oca-check/rest/health | grep "HTTP/1.1 200 OK" || exit 1
+
+LABEL license="GPLv3" \
+      org.opennms.ocacheck.version="${OCA_CHECK_VERSION}" \
+      vendor="OpenNMS Community" \
+      name="OCA Check GitHub Plugin"
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
