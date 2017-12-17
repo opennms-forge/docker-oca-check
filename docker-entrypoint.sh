@@ -35,7 +35,7 @@ configure() {
 }
 
 start () {
-    java -Djava.io.tmpdir=/tmp/jetty -jar /usr/local/jetty/start.jar -Dproperty.file=${OCA_PLUGIN_CONFIG}
+    java ${JAVA_OPTS} -Djava.io.tmpdir=/tmp/jetty -jar /usr/local/jetty/start.jar -Dproperty.file=${OCA_PLUGIN_CONFIG}
 }
 
 # Evaluate arguments for build script.
