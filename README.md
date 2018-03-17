@@ -8,7 +8,7 @@
 
 ### latest
 
-* Jetty 9.4.6
+* Jetty 9.4.7
 * OCA GitHub Plugin 1.1
 
 ## OCA check service for GitHub

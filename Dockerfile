@@ -1,4 +1,4 @@
-FROM jetty:9.4.6
+FROM jetty:9.4.7
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OCA_CHECK_VERSION 1.1
