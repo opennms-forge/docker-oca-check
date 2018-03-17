@@ -21,7 +21,8 @@ RUN apt-get update && \
     curl -L ${OCA_CHECK_WAR_URL} -o ${OCA_CHECK_DEPLOY_DIR}/oca-check.war && \
     mkdir ${OCA_PLUGIN_CONFIG_DIR} && \
     chown -R jetty:jetty ${OCA_CHECK_DEPLOY_DIR} ${OCA_PLUGIN_CONFIG_DIR} && \
-    apt-get autoremove && \
+    apt -y purge curl && \
+    apt-get -y autoremove && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
